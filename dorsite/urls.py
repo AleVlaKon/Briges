@@ -21,7 +21,8 @@ from briges.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('briges.urls')),
+    path('briges/', include('briges.urls')),
+    path('roads/', include('roads.urls')),
 ]
 
 handler404 = pageNotFound

@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'briges',
+    'briges.apps.BrigesConfig',
+    'roads.apps.RoadsConfig',
 ]
 
 MIDDLEWARE = [

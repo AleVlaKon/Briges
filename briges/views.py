@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 
 
-def index(request):
+def brige_index(request):
     return HttpResponse('<h1>Тут будет таблица мостов</h1>')
 
 
