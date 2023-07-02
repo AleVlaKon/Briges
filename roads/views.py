@@ -34,12 +34,12 @@ class RoadIndexFilter(ListView):
 
 
     def get_queryset(self):
-        queryset = Uchastok.objects.filter(id__gte=self.request.POST.get('prinadlezhnost', 2))
+        queryset = Uchastok.objects.filter(road__znachenie__in=self.request.POST.get('prinadlezhnost'))
         return queryset
     
 
     def get_context_data(self, **kwargs):
-        print(self.request.POST.get('prinadlezhnost'))
+        # print(self.request.POST.get('prinadlezhnost'))
         context = super(RoadIndexFilter, self).get_context_data(**kwargs)
         context['form'] = FilterForm()
         return context

@@ -3,7 +3,7 @@
 {% block content %}
 <form action="{% url 'filterlistroads' %}" method="post">
     {% csrf_token %}
-    {{ form.as_div }}
+    {{ form.as_p }}
     <button type="submit">Фильтровать</button>
 
 </form>
