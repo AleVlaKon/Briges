@@ -32,20 +32,17 @@ class RoadIndexFilter(ListView):
     template_name = 'roads/list_roads.html'
     context_object_name = 'roads'
 
+
+    def get_queryset(self):
+        queryset = Uchastok.objects.filter(id__gte=self.request.POST.get('prinadlezhnost', 2))
+        return queryset
+    
+
     def get_context_data(self, **kwargs):
+        print(self.request.POST.get('prinadlezhnost'))
         context = super(RoadIndexFilter, self).get_context_data(**kwargs)
         context['form'] = FilterForm()
         return context
-
-    def get_queryset(self):
-        if self.request.GET:
-            print(self.request.GET)
-            print(Uchastok.objects.filter(pk=2))
-            return Uchastok.objects.filter(pk=self.request.GET['prinadlezhnost'])
-        return Uchastok.objects.all()
-
-
-
 
 
 

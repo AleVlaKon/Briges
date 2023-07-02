@@ -1,7 +1,8 @@
 {% extends 'roads/base.html' %}
  
 {% block content %}
-<form action="{% url 'filterlistroads' %}" method="get">
+<form action="{% url 'filterlistroads' %}" method="post">
+    {% csrf_token %}
     {{ form.as_div }}
     <button type="submit">Фильтровать</button>
 
