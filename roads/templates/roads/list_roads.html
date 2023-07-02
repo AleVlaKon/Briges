@@ -1,0 +1,57 @@
+{% extends 'roads/base.html' %}
+ 
+{% block content %}
+<form action="{% url 'filterlistroads' %}" method="get">
+    {{ form.as_div }}
+    <button type="submit">Фильтровать</button>
+
+</form>
+<div class="container">
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Номер</th>
+                <th scope="col">Название</th>
+                <th scope="col">Категория</th>
+                <th scope="col">Покрытие</th>
+                <th scope="col">Собственник</th>
+                <th scope="col">Принадлежность</th>
+                <th scope="col">Осевая нагрузка</th>
+                <th scope="col">Используемый участок</th>
+                <th scope="col">Общая прот-ть, км</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in roads %}
+            <tr>
+                {% if r.subnumber %}
+                <td>{{ r.number.number }}.{{ r.subnumber }}</td>
+                {% else %}
+                <td>{{ r.number.number }}</td>
+                {% endif %}
+                
+                {% if r.km %}
+                <td>{{ r.number.name }}<br> {{ r.km }}</td>
+                {% else %}
+                <td>{{ r.number.name }}</td>
+                {% endif %}
+                <td>{{ r.category }}</td>
+
+                
+                <td>{% for p in  r.pokr_uch.all %}
+                    {{ p.vid_pokrytia.sokr_pokrytie }} - {{ p.protyazhennost }} км <br>
+                    {% endfor %}</td>
+
+
+                <td>{{ r.number.owner }}</td>
+                <td>{{ r.number.znachenie }}</td>
+                <td>{{ r.osevaya_nagruzka }}</td>
+                <td>от {{ r.start_uchastka }} до {{ r.end_uchastka }}</td>
+                <td>{{ r.full_lenght }}</td>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
