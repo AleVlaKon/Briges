@@ -15,34 +15,36 @@ from .models import *
 #     return render(request, 'roads/list_roads.html', {'roads': roads})
 
 class RoadIndex(ListView):
+    '''Список всех дорог'''
     model = Uchastok
-    form_class = FilterForm
+    # form_class = FilterForm
     template_name = 'roads/list_roads.html'
     context_object_name = 'roads'
 
-    def get_context_data(self, **kwargs):
-        context = super(RoadIndex, self).get_context_data(**kwargs)
-        context['form'] = FilterForm()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super(RoadIndex, self).get_context_data(**kwargs)
+    #     context['form'] = FilterForm()
+    #     return context
 
 
 class RoadIndexFilter(ListView):
+    '''Список отфильтрованных дорог дорог'''
     model = Uchastok
-    form_class = FilterForm
+    # form_class = FilterForm
     template_name = 'roads/list_roads.html'
     context_object_name = 'roads'
 
 
     def get_queryset(self):
-        queryset = Uchastok.objects.filter(road__znachenie__in=self.request.POST.get('prinadlezhnost'))
+        queryset = Uchastok.objects.filter(number__znachenie__in=self.request.GET.get('a'))
         return queryset
     
 
-    def get_context_data(self, **kwargs):
-        # print(self.request.POST.get('prinadlezhnost'))
-        context = super(RoadIndexFilter, self).get_context_data(**kwargs)
-        context['form'] = FilterForm()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     # print(self.request.POST.get('prinadlezhnost'))
+    #     context = super(RoadIndexFilter, self).get_context_data(**kwargs)
+    #     # context['form'] = FilterForm()
+    #     # return context
 
 
 

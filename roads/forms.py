@@ -4,8 +4,8 @@ from django.forms.models import inlineformset_factory
 from .models import *
 
 
-class FilterForm(forms.Form):
-    prinadlezhnost = forms.ModelChoiceField(queryset=Znachenie.objects.all())
+# class FilterForm(forms.Form):
+#     prinadlezhnost = forms.ModelChoiceField(queryset=Znachenie.objects.all())
 
 
 
