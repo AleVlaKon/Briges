@@ -7,7 +7,9 @@ from .models import *
 
 
 # Create your views here.
-
+def road_index(request):
+    """Главная страница"""
+    return render(request, 'roads/index.html')
 
 # def road_index(request):
 #     """Выводит таблицу дорог"""
