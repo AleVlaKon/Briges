@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import ModelForm, CheckboxInput, CheckboxSelectMultiple
 from django.forms.models import inlineformset_factory
+from django.forms import formset_factory
 from .models import *
 
 
@@ -14,4 +15,5 @@ class AddUchastokForm(forms.ModelForm):
         model = Uchastok
         fields = '__all__'
 
-# RoadFormset = inlineformset_factory(Road, Uchastok, extra=1, fields=('number', 'subnumber', 'km', 'category'))
+#RoadFormset = inlineformset_factory(Road, Uchastok, extra=1)
+RoadFormset = formset_factory(AddUchastokForm, extra=3)

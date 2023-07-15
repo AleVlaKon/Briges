@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
 from django.views.generic import ListView
 
+
 from .forms import *
 from .models import *
 
@@ -53,13 +54,13 @@ class RoadIndexFilter(ListView):
 
 
 def input_road_form(request):
-    if request.method == 'GET':
-        form = AddUchastokForm(request.GET)
-        print(request.GET)
+    if request.method == 'POST':
+        form = RoadFormset(request.POST)
+        print(request.POST)
         if form.is_valid():
             print(form.cleaned_data)
     else:
-        form = AddUchastokForm()
+        form = RoadFormset()
 
     return render(request, 'roads/add_road.html', {'form': form})
 
