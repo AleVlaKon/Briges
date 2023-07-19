@@ -16,4 +16,18 @@ class AddUchastokForm(forms.ModelForm):
         fields = '__all__'
 
 #RoadFormset = inlineformset_factory(Road, Uchastok, extra=1)
-RoadFormset = formset_factory(AddUchastokForm, extra=3)
+UchastokFormSet = formset_factory(AddUchastokForm, extra=3)
+
+
+class AddRoadForm(forms.ModelForm):
+    class Meta:
+        model = Road
+        fields = '__all__'
+
+RoadFormSet = formset_factory(AddRoadForm, extra=3)
+
+
+
+
+
+

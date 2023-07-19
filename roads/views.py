@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
-from django.views.generic import ListView
-
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView
 
 from .forms import *
 from .models import *
@@ -53,16 +53,25 @@ class RoadIndexFilter(ListView):
 
 
 
-def input_road_form(request):
-    if request.method == 'POST':
-        form = RoadFormset(request.POST)
-        print(request.POST)
-        if form.is_valid():
-            print(form.cleaned_data)
-    else:
-        form = RoadFormset()
+# def input_road_form(request):
+#     if request.method == 'POST':
+#         form = RoadFormset(request.POST)
+#         print(request.POST)
+#         if form.is_valid():
+#             print(form.cleaned_data)
+#     else:
+#         form = RoadFormset()
+#
+#     return render(request, 'roads/add_uchastok.html', {'form': form})
 
-    return render(request, 'roads/add_road.html', {'form': form})
+
+class InputUchastok(CreateView):
+    form_class = RoadFormset
+    template_name = 'roads/add_uchastok.html'
+    success_url = reverse_lazy('listroads')
+
+
+
 
 def road(request, road_id):
     if int(road_id) > 1000:
