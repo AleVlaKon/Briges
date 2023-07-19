@@ -8,6 +8,8 @@
     <form action="{% url 'input_uchastok' %}" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
+    {{ road_form.as_p }}
+    {{ pokr_form.as_p }}
     <button type="submit">Добавить</button>
 </form>
 

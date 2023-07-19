@@ -66,9 +66,21 @@ class RoadIndexFilter(ListView):
 
 
 class InputUchastok(CreateView):
-    form_class = RoadFormset
+    form_class = AddRoadForm
     template_name = 'roads/add_uchastok.html'
     success_url = reverse_lazy('listroads')
+
+
+    def get_context_data(self, **kwargs):
+        context = super(InputUchastok, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['road_form'] = RoadFormset(self.request.POST)
+            print(form.cleaned_data)
+            # context['pokr_form'] = PokrFormSet(self.request.POST)
+        else:
+            context['road_form'] = RoadFormset()
+            # context['pokr_form'] = PokrFormSet()
+        return context
 
 
 
