@@ -1,4 +1,4 @@
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView
@@ -69,22 +69,34 @@ class InputUchastok(CreateView):
     form_class = AddRoadForm
     template_name = 'roads/add_uchastok.html'
     success_url = reverse_lazy('listroads')
+    
+
 
 
     def get_context_data(self, **kwargs):
-        context = super(InputUchastok, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         if self.request.POST:
             context['road_form'] = RoadFormset(self.request.POST)
-            print(form.cleaned_data)
+
             # context['pokr_form'] = PokrFormSet(self.request.POST)
         else:
             context['road_form'] = RoadFormset()
+
             # context['pokr_form'] = PokrFormSet()
         return context
+    
 
 
+    def form_valid(self, form):
+        context = self.get_context_data()
+        uchastok = context['road_form']
+        self.object = form.save()
+        if uchastok.is_valid():
+            uchastok.instance = self.object
+            uchastok.save()
+        return super().form_valid(form)
 
-
+    
 def road(request, road_id):
     if int(road_id) > 1000:
         return redirect('input_brige')
