@@ -9,7 +9,22 @@
     {% csrf_token %}
     {{ form.as_p }}
     {{ road_form.as_p }}
-    {% comment %} {{ pokr_form.as_p }} {% endcomment %}
+
+
+    {% comment %} {% for r_form in road_form %}
+        {{ r_form }}
+        {% if r_form.nested %}
+            {{ r_form.nested.management_form }}
+            {{ r_form.nested.non_form_errors }}
+            {% for nested_form in r_form.nested.forms %}
+                {{ nested_form }}
+            {% endfor %}
+        {% endif %}
+
+    {% endfor %} {% endcomment %}
+
+
+
     <button type="submit">Добавить</button>
 </form>
 

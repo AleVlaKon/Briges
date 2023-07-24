@@ -77,11 +77,9 @@ class InputUchastok(CreateView):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
             context['road_form'] = RoadFormset(self.request.POST)
-
             # context['pokr_form'] = PokrFormSet(self.request.POST)
         else:
             context['road_form'] = RoadFormset()
-
             # context['pokr_form'] = PokrFormSet()
         return context
     
@@ -90,10 +88,15 @@ class InputUchastok(CreateView):
     def form_valid(self, form):
         context = self.get_context_data()
         uchastok = context['road_form']
+        # pokrytie = context['pokr_form']
         self.object = form.save()
         if uchastok.is_valid():
             uchastok.instance = self.object
             uchastok.save()
+
+        # if pokrytie.is_valid():
+        #     pokrytie.instance = self.object
+        #     pokrytie.save()    
         return super().form_valid(form)
 
     
