@@ -7,8 +7,27 @@
 <body>
     <form action="{% url 'input_uchastok' %}" method="POST">
     {% csrf_token %}
+    {{ form.management_form }}
+    {{ form.non_form_errors }}
     {{ form.as_p }}
-    {{ road_form.as_p }}
+
+    {{ road_form.management_form }}
+    {{ road_form.non_form_errors }}
+    {% for road_form in road_form.forms %}
+        {{ road_form }}
+        {% if road_form.nested %}
+            {{ road_form.nested.management_form }}
+            {{ road_form.nested.non_form_errors }}
+            {% for nested_form in road_form.nested.forms %}
+                {{ nested.form }}
+            {% endfor %}
+        
+        
+        
+        {% endif %}
+    {% endfor %}    
+
+    
 
 
     {% comment %} {% for r_form in road_form %}
