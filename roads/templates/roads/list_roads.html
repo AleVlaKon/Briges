@@ -1,12 +1,23 @@
 {% extends 'roads/base.html' %}
  
 {% block content %}
-<form action="{% url 'filterlistroads' %}" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Фильтровать</button>
 
+<form action="{% url 'filterlistroads' %}" method="get">
+    {{ road_form }}
+    <button type="submit">Фильтровать2</button>
 </form>
+
+
+<!--<form action="{% url 'filterlistroads' %}" method="get">-->
+<!--    <p><input type="checkbox" name="a" value="1"> Федеральные</p>-->
+<!--    <p><input type="checkbox" name="a" value="2"> Региональные</p>-->
+<!--    <p><input type="checkbox" name="a" value="3"> Местные</p>-->
+<!--    <p><input type="checkbox" name="a" value="4"> Частные</p>-->
+<!--    <p><input type="checkbox" name="a" value="5"> Ведомственные</p>-->
+
+<!--    <button type="submit">Фильтровать</button>-->
+
+<!--</form>-->
 <div class="container">
     <table class="table table-striped">
         <thead class="thead-dark">

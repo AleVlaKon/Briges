@@ -21,6 +21,7 @@ from briges.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('roads.urls')),
     path('briges/', include('briges.urls')),
     path('roads/', include('roads.urls')),
 ]

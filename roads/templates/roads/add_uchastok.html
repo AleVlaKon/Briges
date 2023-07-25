@@ -5,9 +5,14 @@
     <title>Добавление дороги</title>
 </head>
 <body>
-    <form action="{% url 'input_road' %}" method="GET">
+    <form action="{% url 'input_uchastok' %}" method="POST">
+    {% csrf_token %}
     {{ form.as_p }}
+    {{ road_form.as_p }}
+    {% comment %} {{ pokr_form.as_p }} {% endcomment %}
     <button type="submit">Добавить</button>
 </form>
+
+
 </body>
 </html>

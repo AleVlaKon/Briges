@@ -1,0 +1,8 @@
+{% extends 'roads/base.html' %}
+ 
+{% block content %}
+
+<a href="{% url 'listroads'%}">Дороги</a>
+<a href="{% url 'listbriges'%}">Мосты</a>
+<a href="{% url 'input_uchastok'%}">Добавить дорогу</a>
+{% endblock %}

@@ -1,13 +1,16 @@
-from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.views.generic import ListView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, CreateView
 
 from .forms import *
 from .models import *
 
 
 # Create your views here.
-
+def road_index(request):
+    """Главная страница"""
+    return render(request, 'roads/index.html')
 
 # def road_index(request):
 #     """Выводит таблицу дорог"""
@@ -15,6 +18,7 @@ from .models import *
 #     return render(request, 'roads/list_roads.html', {'roads': roads})
 
 class RoadIndex(ListView):
+    '''Список всех дорог'''
     model = Uchastok
     form_class = FilterForm
     template_name = 'roads/list_roads.html'
@@ -27,6 +31,7 @@ class RoadIndex(ListView):
 
 
 class RoadIndexFilter(ListView):
+    '''Список отфильтрованных дорог дорог'''
     model = Uchastok
     form_class = FilterForm
     template_name = 'roads/list_roads.html'
@@ -34,12 +39,13 @@ class RoadIndexFilter(ListView):
 
 
     def get_queryset(self):
-        queryset = Uchastok.objects.filter(road__znachenie__in=self.request.POST.get('prinadlezhnost'))
+        # queryset = Uchastok.objects.filter(number__znachenie__in=self.request.GET.get('a'))
+        queryset = Uchastok.objects.filter(number__znachenie__in=self.request.GET.getlist('prinadlezhnost'))
         return queryset
     
 
     def get_context_data(self, **kwargs):
-        # print(self.request.POST.get('prinadlezhnost'))
+        print(self.request.GET.getlist('prinadlezhnost'))
         context = super(RoadIndexFilter, self).get_context_data(**kwargs)
         context['form'] = FilterForm()
         return context
@@ -47,17 +53,50 @@ class RoadIndexFilter(ListView):
 
 
 
-def input_road_form(request):
-    if request.method == 'GET':
-        form = AddUchastokForm(request.GET)
-        print(request.GET)
-        if form.is_valid():
-            print(form.cleaned_data)
-    else:
-        form = AddUchastokForm()
+# def input_road_form(request):
+#     if request.method == 'POST':
+#         form = RoadFormset(request.POST)
+#         print(request.POST)
+#         if form.is_valid():
+#             print(form.cleaned_data)
+#     else:
+#         form = RoadFormset()
+#
+#     return render(request, 'roads/add_uchastok.html', {'form': form})
 
-    return render(request, 'roads/add_road.html', {'form': form})
 
+class InputUchastok(CreateView):
+    form_class = AddRoadForm
+    template_name = 'roads/add_uchastok.html'
+    success_url = reverse_lazy('listroads')
+    
+
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['road_form'] = RoadFormset(self.request.POST)
+
+            # context['pokr_form'] = PokrFormSet(self.request.POST)
+        else:
+            context['road_form'] = RoadFormset()
+
+            # context['pokr_form'] = PokrFormSet()
+        return context
+    
+
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        uchastok = context['road_form']
+        self.object = form.save()
+        if uchastok.is_valid():
+            uchastok.instance = self.object
+            uchastok.save()
+        return super().form_valid(form)
+
+    
 def road(request, road_id):
     if int(road_id) > 1000:
         return redirect('input_brige')
