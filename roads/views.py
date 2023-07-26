@@ -68,10 +68,8 @@ class RoadIndexFilter(ListView):
 class InputUchastok(CreateView):
     form_class = AddRoadForm
     template_name = 'roads/add_uchastok.html'
-    success_url = reverse_lazy('listroads')
+    # success_url = reverse_lazy('listroads')
     
-
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

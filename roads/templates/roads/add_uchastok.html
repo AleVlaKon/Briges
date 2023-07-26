@@ -13,37 +13,9 @@
 
     {{ road_form.management_form }}
     {{ road_form.non_form_errors }}
-    {% for road_form in road_form.forms %}
-        {{ road_form }}
-        {% if road_form.nested %}
-            {{ road_form.nested.management_form }}
-            {{ road_form.nested.non_form_errors }}
-            {% for nested_form in road_form.nested.forms %}
-                {{ nested.form }}
-            {% endfor %}
+    {{ road_form.as_p }}    
+   
         
-        
-        
-        {% endif %}
-    {% endfor %}    
-
-    
-
-
-    {% comment %} {% for r_form in road_form %}
-        {{ r_form }}
-        {% if r_form.nested %}
-            {{ r_form.nested.management_form }}
-            {{ r_form.nested.non_form_errors }}
-            {% for nested_form in r_form.nested.forms %}
-                {{ nested_form }}
-            {% endfor %}
-        {% endif %}
-
-    {% endfor %} {% endcomment %}
-
-
-
     <button type="submit">Добавить</button>
 </form>
 
