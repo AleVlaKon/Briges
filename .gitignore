@@ -2,3 +2,6 @@
 /dvenv/Lib/site-packages/
 /dvenv/Scripts/
 /dvenv/pyvenv.cfg
+/roads/__pycache__/
+/dorsite/__pycache__/
+/briges/__pycache__/
