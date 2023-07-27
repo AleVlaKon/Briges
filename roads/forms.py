@@ -33,18 +33,11 @@ class AddRoadForm(forms.ModelForm):
     class Meta:
         model = Road
         fields = ['number', 'name','owner','znachenie','objects_r',]
-        # widgets = {
-        #     'number': forms.TextInput(attrs={'class': 'form-control'}),
-        #     'name': forms.TextInput(attrs={'class': 'form-control'}),
-        #     'owner': forms.TextInput(attrs={'class': 'form-control'}),
-
-
-        # }
 
 
 PokrFormSet = inlineformset_factory(Uchastok, PokrytieUchastka, extra=2, fields='__all__')
 
-class BasePokrFormset(BaseInlineFormSet):
+class BaseUchFormset(BaseInlineFormSet):
 
     def add_fields(self, form, index):
         super().add_fields(form, index)
@@ -55,80 +48,86 @@ class BasePokrFormset(BaseInlineFormSet):
                         data=form.data if form.is_bound else None,
                         files=form.files if form.is_bound else None,
                         prefix='pokr-%s-%s' % (
-                            form.prefix, PokrFormSet.get_default_prefix()))
+                            form.prefix, PokrFormSet.get_default_prefix()),
+                        extra=2
+                            )
 
-    def is_valid(self):
-        result = super().is_valid()
 
-        if self.is_bound:
-            for form in self.forms:
-                if hasattr(form, 'nested'):
-                    result = result and form.nested.is_valid()
-        return result
+
+
+
+    # def is_valid(self):
+    #     result = super().is_valid()
+
+    #     if self.is_bound:
+    #         for form in self.forms:
+    #             if hasattr(form, 'nested'):
+    #                 result = result and form.nested.is_valid()
+    #     return result
     
 
-    def clean(self):
-        """
-        If a parent form has no data, but its nested forms do, we should
-        return an error, because we can't save the parent.
-        For example, if the Book form is empty, but there are Images.
-        """
-        super().clean()
+    # def clean(self):
+    #     """
+    #     If a parent form has no data, but its nested forms do, we should
+    #     return an error, because we can't save the parent.
+    #     For example, if the Book form is empty, but there are Images.
+    #     """
+    #     super().clean()
 
-        for form in self.forms:
-            if not hasattr(form, "nested") or self._should_delete_form(form):
-                continue
+    #     for form in self.forms:
+    #         if not hasattr(form, "nested") or self._should_delete_form(form):
+    #             continue
 
-            if self._is_adding_nested_inlines_to_empty_form(form):
-                form.add_error(
-                    field=None,
-                    error=_(
-                        "You are trying to add image(s) to a book which "
-                        "does not yet exist. Please add information "
-                        "about the book and choose the image file(s) again."
-                    ),
-                )
+    #         if self._is_adding_nested_inlines_to_empty_form(form):
+    #             form.add_error(
+    #                 field=None,
+    #                 error=_(
+    #                     "You are trying to add image(s) to a book which "
+    #                     "does not yet exist. Please add information "
+    #                     "about the book and choose the image file(s) again."
+    #                 ),
+    #             )
     
 
-    def save(self, commit=True):
-        """
-        Also save the nested formsets.
-        """
-        result = super().save(commit=commit)
+    # def save(self, commit=True):
+    #     """
+    #     Also save the nested formsets.
+    #     """
+    #     result = super().save(commit=commit)
 
-        for form in self.forms:
-            if hasattr(form, "nested"):
-                if not self._should_delete_form(form):
-                    form.nested.save(commit=commit)
-        return result
+    #     for form in self.forms:
+    #         if hasattr(form, "nested"):
+    #             if not self._should_delete_form(form):
+    #                 form.nested.save(commit=commit)
+    #     return result
 
 
-    def _is_adding_nested_inlines_to_empty_form(self, form):
-        """
-        Are we trying to add data in nested inlines to a form that has no data?
-        e.g. Adding Images to a new Book whose data we haven't entered?
-        """
-        if not hasattr(form, "nested"):
-            # A basic form; it has no nested forms to check.
-            return False
+    # def _is_adding_nested_inlines_to_empty_form(self, form):
+    #     """
+    #     Are we trying to add data in nested inlines to a form that has no data?
+    #     e.g. Adding Images to a new Book whose data we haven't entered?
+    #     """
+    #     if not hasattr(form, "nested"):
+    #         # A basic form; it has no nested forms to check.
+    #         return False
 
-        if is_form_persisted(form):
-            # We're editing (not adding) an existing model.
-            return False
+    #     if is_form_persisted(form):
+    #         # We're editing (not adding) an existing model.
+    #         return False
 
-        if not is_empty_form(form):
-            # The form has errors, or it contains valid data.
-            return False
+    #     if not is_empty_form(form):
+    #         # The form has errors, or it contains valid data.
+    #         return False
 
-        # All the inline forms that aren't being deleted:
-        non_deleted_forms = set(form.nested.forms).difference(
-            set(form.nested.deleted_forms)
-        )
+    #     # All the inline forms that aren't being deleted:
+    #     non_deleted_forms = set(form.nested.forms).difference(
+    #         set(form.nested.deleted_forms)
+    #     )
 
-        # At this point we know that the "form" is empty.
-        # In all the inline forms that aren't being deleted, are there any that
-        # contain data? Return True if so.
-        return any(not is_empty_form(nested_form) for nested_form in non_deleted_forms)
+    #     # At this point we know that the "form" is empty.
+    #     # In all the inline forms that aren't being deleted, are there any that
+    #     # contain data? Return True if so.
+    #     return any(not is_empty_form(nested_form) for nested_form in non_deleted_forms)
 
 
 RoadFormset = inlineformset_factory(Road, Uchastok, extra=2, fields='__all__')

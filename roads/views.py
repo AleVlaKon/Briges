@@ -68,7 +68,7 @@ class RoadIndexFilter(ListView):
 class InputRoad(CreateView):
     form_class = AddRoadForm
     template_name = 'roads/add_road.html'
-    success_url = reverse_lazy('listroads')
+    success_url = reverse_lazy('input_road')
 
 
 
