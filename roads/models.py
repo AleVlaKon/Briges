@@ -9,7 +9,7 @@ class Road(models.Model):
     name = models.CharField(max_length=255, verbose_name = 'Наименование', null=True, default=None, blank=True)
     owner = models.CharField(max_length=255, verbose_name = 'Собственник', null=True, default=None, blank=True)
     znachenie = models.ForeignKey('Znachenie', on_delete=models.SET_NULL, verbose_name = 'Значение', null=True, blank=True)
-    # objects_r = models.ManyToManyField('NameObject', verbose_name = 'Объекты', related_name='objects_names', null=True, default=None)
+    objects_r = models.ManyToManyField('NameObject', verbose_name = 'Объекты', related_name='objects_names', null=True, default=None)
 
 
     def __str__(self):
@@ -31,7 +31,7 @@ class Uchastok(models.Model):
     end_uchastka = models.CharField(max_length=255, verbose_name = 'до', null=True, default=None, blank=True)
     full_lenght = models.FloatField(verbose_name = 'Протяженность', null=True, default=None, blank=True)
     # etap_proekta = models.CharField(max_length=255, verbose_name = 'Этап', null=True, default=None, blank=True)
-    objects_r = models.ManyToManyField('NameObject', verbose_name = 'Объекты', related_name='objects_names', null=True, default=None)
+    # objects_r = models.ManyToManyField('NameObject', verbose_name = 'Объекты', related_name='objects_names', null=True, default=None)
     etap_proekta = models.ManyToManyField('ObjectEtap', verbose_name = 'Этапы', related_name='etap_names', null=True, default=None)
 
 

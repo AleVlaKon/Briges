@@ -21,10 +21,26 @@ class FilterForm(forms.Form):
 #
 #
 class AddRoadForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['number'].widget.attrs['class'] = 'form-control'
+        self.fields['name'].widget.attrs['class'] = 'form-control'
+        self.fields['owner'].widget.attrs['class'] = 'form-control'
+        self.fields['znachenie'].widget.attrs['class'] = 'form-select'
+        self.fields['objects_r'].widget.attrs['class'] = 'form-select'
+
+
     class Meta:
         model = Road
-        fields = '__all__'
-#
+        fields = ['number', 'name','owner','znachenie','objects_r',]
+        # widgets = {
+        #     'number': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'name': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'owner': forms.TextInput(attrs={'class': 'form-control'}),
+
+
+        # }
+
 
 PokrFormSet = inlineformset_factory(Uchastok, PokrytieUchastka, extra=2, fields='__all__')
 

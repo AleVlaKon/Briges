@@ -65,6 +65,14 @@ class RoadIndexFilter(ListView):
 #     return render(request, 'roads/add_uchastok.html', {'form': form})
 
 
+class InputRoad(CreateView):
+    form_class = AddRoadForm
+    template_name = 'roads/add_road.html'
+    success_url = reverse_lazy('listroads')
+
+
+
+
 class InputUchastok(CreateView):
     form_class = AddRoadForm
     template_name = 'roads/add_uchastok.html'
