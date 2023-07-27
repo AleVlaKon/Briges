@@ -9,6 +9,6 @@ urlpatterns = [
     path('filterlistroads/', RoadIndexFilter.as_view(), name='filterlistroads'),
     path('listroads/', RoadIndex.as_view(), name='listroads'),
     path('inputroad/', InputRoad.as_view(), name='input_road'),
-    path('inputuchastok/', InputUchastok.as_view(), name='input_uchastok'),
+    path('inputuchastok/', AddUchastok.as_view(), name='input_uchastok'),
     path('<int:road_id>/', road)
 ]

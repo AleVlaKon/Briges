@@ -21,6 +21,7 @@ class FilterForm(forms.Form):
 #
 #
 class AddRoadForm(forms.ModelForm):
+    '''Форма ввода дороги'''
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['number'].widget.attrs['class'] = 'form-control'
@@ -33,6 +34,36 @@ class AddRoadForm(forms.ModelForm):
     class Meta:
         model = Road
         fields = ['number', 'name','owner','znachenie','objects_r',]
+
+
+class AddUchastokForm(forms.ModelForm):
+    '''Форма ввода участка дороги'''
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['number'].widget.attrs['class'] = 'form-select'
+        self.fields['subnumber'].widget.attrs['class'] = 'form-control'
+        self.fields['km'].widget.attrs['class'] = 'form-control'
+        self.fields['category'].widget.attrs['class'] = 'form-control'
+        self.fields['osevaya_nagruzka'].widget.attrs['class'] = 'form-control'
+        self.fields['start_uchastka'].widget.attrs['class'] = 'form-control'
+        self.fields['end_uchastka'].widget.attrs['class'] = 'form-control'
+        self.fields['full_lenght'].widget.attrs['class'] = 'form-control'
+        self.fields['etap_proekta'].widget.attrs['class'] = 'form-select'
+        
+
+
+    class Meta:
+        model = Uchastok
+        fields = ['number', 
+                  'subnumber',
+                  'km',
+                  'category',
+                  'osevaya_nagruzka',
+                  'start_uchastka',
+                  'end_uchastka',
+                  'full_lenght',
+                  'etap_proekta',
+                  ]
 
 
 PokrFormSet = inlineformset_factory(Uchastok, PokrytieUchastka, extra=2, fields='__all__')

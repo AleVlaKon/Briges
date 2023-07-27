@@ -73,8 +73,9 @@ class InputRoad(CreateView):
 
 
 
-class InputUchastok(CreateView):
-    form_class = AddRoadForm
+class AddUchastok(CreateView):
+    '''Страница ввода участка и покрытия на участке'''
+    form_class = AddUchastokForm
     template_name = 'roads/add_uchastok.html'
     # success_url = reverse_lazy('listroads')
     
@@ -82,18 +83,16 @@ class InputUchastok(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['road_form'] = RoadFormset(self.request.POST)
-            # context['pokr_form'] = PokrFormSet(self.request.POST)
+            context['pokr_form'] = PokrFormSet(self.request.POST)
         else:
-            context['road_form'] = RoadFormset()
-            # context['pokr_form'] = PokrFormSet()
+            context['pokr_form'] = PokrFormSet()
         return context
     
 
 
     def form_valid(self, form):
         context = self.get_context_data()
-        uchastok = context['road_form']
+        uchastok = context['pokr_form']
         # pokrytie = context['pokr_form']
         self.object = form.save()
         if uchastok.is_valid():

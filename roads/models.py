@@ -107,8 +107,10 @@ class ObjectEtap(models.Model):
 
 
     def __str__(self):
-        return self.etap_number
-
+        # return self.etap_number
+        return f'{self.object_name.object_name} - {self.etap_name}'
+    
+    
     class Meta:
         verbose_name = 'Этап'
         verbose_name_plural = 'Этапы'
