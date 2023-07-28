@@ -6,11 +6,14 @@
     <form  method="POST">
         {% csrf_token %}
         {{ form.as_p }}
+        {% for f in pokr_form %}
+        {{ f.as_p }}
+        {% endfor %}
         <button type="submit" class="btn btn-outline-primary me-2">Добавить</button>
     </form>
 </div>
 
-<div class="container">
+{% comment %} <div class="container">
     <form  method="POST">
         {% csrf_token %}
         <div class="form-row">
@@ -23,7 +26,7 @@
         </div>
     <button type="submit" class="btn btn-outline-primary me-2">Добавить</button>
     </form>
-</div>
+</div> {% endcomment %}
     
 
 

@@ -19,7 +19,7 @@ def road_index(request):
 
 class RoadIndex(ListView):
     '''Список всех дорог'''
-    model = Uchastok
+    model = Road
     form_class = FilterForm
     template_name = 'roads/list_roads.html'
     context_object_name = 'roads'
@@ -32,15 +32,14 @@ class RoadIndex(ListView):
 
 class RoadIndexFilter(ListView):
     '''Список отфильтрованных дорог дорог'''
-    model = Uchastok
+    model = Road
     form_class = FilterForm
     template_name = 'roads/list_roads.html'
     context_object_name = 'roads'
 
 
     def get_queryset(self):
-        # queryset = Uchastok.objects.filter(number__znachenie__in=self.request.GET.get('a'))
-        queryset = Uchastok.objects.filter(number__znachenie__in=self.request.GET.getlist('prinadlezhnost'))
+        queryset = Road.objects.filter(number__znachenie__in=self.request.GET.getlist('prinadlezhnost'))
         return queryset
     
 
@@ -51,43 +50,19 @@ class RoadIndexFilter(ListView):
         return context
 
 
-
-
-# def input_road_form(request):
-#     if request.method == 'POST':
-#         form = RoadFormset(request.POST)
-#         print(request.POST)
-#         if form.is_valid():
-#             print(form.cleaned_data)
-#     else:
-#         form = RoadFormset()
-#
-#     return render(request, 'roads/add_uchastok.html', {'form': form})
-
-
 class InputRoad(CreateView):
     form_class = AddRoadForm
     template_name = 'roads/add_road.html'
     success_url = reverse_lazy('input_road')
 
 
-
-
-class AddUchastok(CreateView):
-    '''Страница ввода участка и покрытия на участке'''
-    form_class = AddUchastokForm
-    template_name = 'roads/add_uchastok.html'
-    # success_url = reverse_lazy('listroads')
-    
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['pokr_form'] = PokrFormSet(self.request.POST)
+            context['pokr_form'] = RoadFormset(self.request.POST)
         else:
-            context['pokr_form'] = PokrFormSet()
+            context['pokr_form'] = RoadFormset()
         return context
-    
 
 
     def form_valid(self, form):
@@ -99,10 +74,38 @@ class AddUchastok(CreateView):
             uchastok.instance = self.object
             uchastok.save()
 
-        # if pokrytie.is_valid():
-        #     pokrytie.instance = self.object
-        #     pokrytie.save()    
-        return super().form_valid(form)
+
+
+# class AddUchastok(CreateView):
+#     '''Страница ввода участка и покрытия на участке'''
+#     form_class = AddUchastokForm
+#     template_name = 'roads/add_uchastok.html'
+#     # success_url = reverse_lazy('listroads')
+    
+
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         if self.request.POST:
+#             context['pokr_form'] = PokrFormSet(self.request.POST)
+#         else:
+#             context['pokr_form'] = PokrFormSet()
+#         return context
+    
+
+
+#     def form_valid(self, form):
+#         context = self.get_context_data()
+#         uchastok = context['pokr_form']
+#         # pokrytie = context['pokr_form']
+#         self.object = form.save()
+#         if uchastok.is_valid():
+#             uchastok.instance = self.object
+#             uchastok.save()
+
+#         # if pokrytie.is_valid():
+#         #     pokrytie.instance = self.object
+#         #     pokrytie.save()    
+#         return super().form_valid(form)
 
     
 def road(request, road_id):
