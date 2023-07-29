@@ -59,9 +59,9 @@ class InputRoad(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.POST:
-            context['pokr_form'] = RoadFormset(self.request.POST)
+            context['pokr_form'] = PokrFormset(self.request.POST)
         else:
-            context['pokr_form'] = RoadFormset()
+            context['pokr_form'] = PokrFormset()
         return context
 
 

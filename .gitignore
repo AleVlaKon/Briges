@@ -49,3 +49,6 @@ roads/migrations/__pycache__/0014_nameobject_object_short_name_and_more.cpython-
 roads/migrations/__pycache__/0014_nameobject_short_object_name_and_more.cpython-311.pyc
 roads/migrations/__pycache__/0015_merge_20230701_1737.cpython-311.pyc
 >>>>>>> 901fb02afb3ccd65fb69843fbd4fa25084951dc9
+roads/migrations/__pycache__/0016_remove_nameobject_object_short_name_and_more.cpython-311.pyc
+roads/migrations/__pycache__/0017_remove_uchastok_objects_r_road_objects_r.cpython-311.pyc
+roads/migrations/__pycache__/0018_remove_pokrytieuchastka_uchastok_and_more.cpython-311.pyc
