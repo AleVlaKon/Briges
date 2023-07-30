@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm, CheckboxInput, CheckboxSelectMultiple
 from django.forms.models import inlineformset_factory, BaseInlineFormSet
-from django.forms import formset_factory
+from django.forms import formset_factory, modelformset_factory
 from .models import *
 
 
@@ -60,4 +60,6 @@ class BaseRoadFormset(BaseInlineFormSet):
 
 
 PokrFormset = inlineformset_factory(Road, PokrytieUchastka, extra=2, fields='__all__')
+
+RoadPokrFormset = formset_factory(Road, formset=BaseRoadFormset)
 

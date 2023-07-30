@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, FormView
 
 from .forms import *
 from .models import *
@@ -50,29 +50,29 @@ class RoadIndexFilter(ListView):
         return context
 
 
-class InputRoad(CreateView):
-    form_class = AddRoadForm
+class InputRoad(FormView):
+    form_class = RoadPokrFormset
     template_name = 'roads/add_road.html'
     success_url = reverse_lazy('input_road')
 
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context['pokr_form'] = PokrFormset(self.request.POST)
-        else:
-            context['pokr_form'] = PokrFormset()
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     if self.request.POST:
+    #         context['pokr_form'] = PokrFormset(self.request.POST)
+    #     else:
+    #         context['pokr_form'] = PokrFormset()
+    #     return context
 
 
-    def form_valid(self, form):
-        context = self.get_context_data()
-        uchastok = context['pokr_form']
-        # pokrytie = context['pokr_form']
-        self.object = form.save()
-        if uchastok.is_valid():
-            uchastok.instance = self.object
-            uchastok.save()
+    # def form_valid(self, form):
+    #     context = self.get_context_data()
+    #     uchastok = context['pokr_form']
+    #     # pokrytie = context['pokr_form']
+    #     self.object = form.save()
+    #     if uchastok.is_valid():
+    #         uchastok.instance = self.object
+    #         uchastok.save()
 
 
 
