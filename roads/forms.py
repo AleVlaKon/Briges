@@ -44,5 +44,20 @@ class AddRoadForm(forms.ModelForm):
                   ]
 
 
-RoadFormset = inlineformset_factory(Road, PokrytieUchastka, extra=2, fields='__all__')
+class BaseRoadPorkFormset(BaseInlineFormSet):
+    def add_fields(self, form, index):
+        super().add_fields(form, index)
+
+        # save the formset in the 'nested' property
+        form.nested = PokrFormset(
+                        instance=form.instance,
+                        data=form.data if form.is_bound else None,
+                        files=form.files if form.is_bound else None,
+                        prefix='address-%s-%s' % (
+                            form.prefix,
+                            PokrFormset.get_default_prefix()),
+                        extra=1)
+
+
+PokrFormset = inlineformset_factory(Road, PokrytieUchastka, extra=4, fields='__all__')
 
