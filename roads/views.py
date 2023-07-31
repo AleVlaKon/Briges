@@ -22,6 +22,26 @@ class MainListObject(ListView):
 
 
 
+class ArchiveListObject(ListView):
+    '''Главная страница с перечнем объектов'''
+    model=NameObject
+    template_name = 'roads/index.html'
+
+    def get_queryset(self):
+        return NameObject.objects.filter(in_archive=True)
+
+
+
+class RoadListObject(ListView):
+    model = Road
+    template_name = 'roads/list_roads.html'
+    context_object_name = 'roads'
+
+    def get_queryset(self):
+        return Road.objects.filter(etap_proekta__object_name__id=self.kwargs['obj_id'])
+
+
+
 
 
 class RoadIndex(ListView):

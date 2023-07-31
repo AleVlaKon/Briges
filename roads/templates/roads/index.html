@@ -7,15 +7,18 @@
 <a href="{% url 'input_uchastok'%}">Добавить участок</a>
 <a href="{% url 'input_road'%}">Добавить дорогу</a> {% endcomment %}
 
-{% for object in object_list %}
-    <div class='container'>
+
+<div class='container'>
     <div class="list-group">
-           
-        <a href="#" class="list-group-item list-group-item-action" aria-current="true">
+        {% for object in object_list %}   
+            <a href="{% url 'roadobjectlist' object.pk %}" class="list-group-item list-group-item-action" aria-current="true">
             {{object}}
         </a>
-      </div>
-    </div>
-{% endfor %}
 
+{% endfor %}
+<a href="{% url 'archive' %}" class="list-group-item list-group-item-action" aria-current="true">
+    Объекты архив
+</a>
+    </div>
+</div>
 {% endblock %}
